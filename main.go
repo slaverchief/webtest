@@ -58,7 +58,10 @@ func main() {
 	}
 
 	authMiddleware := middlewares.NewAuthMiddleware(jwtSecret, db)
-
+	if os.Getenv("GIN_MODE") == "release" {
+		fmt.Println("release")
+		gin.SetMode(gin.ReleaseMode)
+	}
 	router := gin.Default()
 	routes.SetupRoutes(router, authMiddleware, services)
 
